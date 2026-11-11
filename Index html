@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My New AI - Photo Editor</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #10172e, #263b70);
+  color: white;
+  text-align: center;
+}
+.container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 25px;
+}
+h1 { color: #48e5ff; }
+.card {
+  background: #ffffff16;
+  padding: 25px;
+  border-radius: 18px;
+}
+input, button {
+  margin: 12px 0;
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+}
+button {
+  background: #00c8ee;
+  color: #071326;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+img {
+  max-width: 100%;
+  margin-top: 15px;
+  border-radius: 12px;
+}
+footer { margin-top: 25px; color: #b8c8e8; }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>🤖 MY NEW AI</h1>
+  <p>AI Photo Enhancer</p>
+
+  <div class="card">
+    <h2>تصویر صاف کریں</h2>
+    <p>اپنی تصویر منتخب کریں</p>
+
+    <input type="file" id="upload" accept="image/*">
+
+    <img id="preview" hidden>
+
+    <button onclick="enhance()">✨ تصویر صاف کریں</button>
+
+    <canvas id="canvas" hidden></canvas>
+
+    <img id="result" hidden>
+
+    <a id="download" hidden download="my-new-ai-photo.png">
+      <button>⬇️ صاف تصویر ڈاؤن لوڈ کریں</button>
+    </a>
+  </div>
+
+  <footer>Created by gg9836490-cmd ❤️</footer>
+</div>
+
+<script>
+const upload = document.getElementById("upload");
+const preview = document.getElementById("preview");
+const result = document.getElementById("result");
+const canvas = document.getElementById("canvas");
+
+let photo = new Image();
+
+upload.addEventListener("change", function() {
+  const file = this.files[0];
+  if (!file) return;
+
+  const url = URL.createObjectURL(file);
+  photo.onload = () => {
+    preview.src = url;
+    preview.hidden = false;
+    result.hidden = true;
+    document.getElementById("download").hidden = true;
+  };
+  photo.src = url;
+});
+
+function enhance() {
+  if (!photo.src) {
+    alert("Please upload a photo first!");
+    return;
+  }
+
+  canvas.width = photo.naturalWidth;
+  canvas.height = photo.naturalHeight;
+
+  const ctx = canvas.getContext("2d");
+  ctx.filter = "brightness(1.12) contrast(1.12) saturate(1.08)";
+  ctx.drawImage(photo, 0, 0);
+
+  const imageURL = canvas.toDataURL("image/png");
+
+  result.src = imageURL;
+  result.hidden = false;
+
+  const download = document.getElementById("download");
+  download.href = imageURL;
+  download.hidden = false;
+}
+</script>
+</body>
+</html>
